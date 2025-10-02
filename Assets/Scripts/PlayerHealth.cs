@@ -32,6 +32,7 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
+        currentHealth = Mathf.Max(currentHealth, 0);
         UpdateHealthUI();
 
         if (currentHealth <= 0)
