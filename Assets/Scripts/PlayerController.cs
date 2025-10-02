@@ -8,11 +8,14 @@ public class PlayerController2d : MonoBehaviour
     public float bulletSpeed = 15f;
 
     private Rigidbody2D rb;
-    private bool isFlipped = false;
+    private bool isFlipped = false;   // vertical flip
+    private bool facingRight = true;  // horizontal flip state
+    private Vector3 originalScale;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        originalScale = transform.localScale;
     }
 
     void Update()
@@ -21,12 +24,24 @@ public class PlayerController2d : MonoBehaviour
         float move = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(move * moveSpeed, rb.velocity.y);
 
+        // Check movement direction to flip horizontally
+        if (move > 0 && !facingRight)
+        {
+            facingRight = true;
+            FlipHorizontal();
+        }
+        else if (move < 0 && facingRight)
+        {
+            facingRight = false;
+            FlipHorizontal();
+        }
+
         // Flip gravity with G
         if (Input.GetKeyDown(KeyCode.G))
         {
             rb.gravityScale *= -1;
-            transform.localScale = new Vector3(transform.localScale.x, -transform.localScale.y, 1);
             isFlipped = !isFlipped;
+            FlipVertical();
         }
 
         // Shoot with Space
@@ -36,6 +51,20 @@ public class PlayerController2d : MonoBehaviour
         }
     }
 
+    void FlipHorizontal()
+    {
+        Vector3 scale = transform.localScale;
+        scale.x *= -1; // flip X
+        transform.localScale = scale;
+    }
+
+    void FlipVertical()
+    {
+        Vector3 scale = transform.localScale;
+        scale.y *= -1; // flip Y
+        transform.localScale = scale;
+    }
+
     void Shoot()
     {
         if (bulletPrefab != null && firePoint != null)
@@ -43,31 +72,28 @@ public class PlayerController2d : MonoBehaviour
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
             Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
             
-            // Track where bullet was shot from
             Bullet bulletScript = bullet.GetComponent<Bullet>();
             if (bulletScript != null)
             {
-                bulletScript.shotFromGround = !isFlipped; // true if on ground, false if on ceiling
+                bulletScript.shotFromGround = !isFlipped;
             }
             
             if (bulletRb != null)
             {
-                // 45 degree angle: equal X and Y components
                 float angle = 45f * Mathf.Deg2Rad;
                 float xVelocity = Mathf.Cos(angle) * bulletSpeed;
                 float yVelocity = Mathf.Sin(angle) * bulletSpeed;
-                
-                // Flip Y direction if player is upside down
-                if (isFlipped)
-                {
-                    yVelocity = -yVelocity;
-                }
+
+                if (isFlipped) yVelocity = -yVelocity;
+
+                // Apply facing direction
+                xVelocity *= facingRight ? 1 : -1;
                 
                 bulletRb.velocity = new Vector2(xVelocity, yVelocity);
-                bulletRb.gravityScale = isFlipped ? -2f : 2f; // Gravity affects trajectory
+                bulletRb.gravityScale = isFlipped ? -2f : 2f;
             }
 
-            Destroy(bullet, 3f); // Destroy bullet after 5 seconds
+            Destroy(bullet, 3f);
         }
     }
 }
