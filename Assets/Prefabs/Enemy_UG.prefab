@@ -147,7 +147,7 @@ MonoBehaviour:
   isOnCeiling: 1
   enemyBulletPrefab: {fileID: 5921066240817692316, guid: d621d909222fb2542a233e37b112bb8d, type: 3}
   enemyFirePoint: {fileID: 0}
-  detectionRange: 100
-  shootCooldown: 0.3
+  detectionRange: 150
+  shootCooldown: 0.5
   enemyBulletSpeed: 100
   shootAngle: 15
