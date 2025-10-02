@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class PlayerHealth : MonoBehaviour
@@ -6,11 +7,20 @@ public class PlayerHealth : MonoBehaviour
     public int maxHealth = 10;
     public int currentHealth;
     public TextMeshProUGUI healthText;
+    
+    // Game Over UI
+    public GameObject gameOverPanel;
 
     void Start()
     {
         currentHealth = maxHealth;
         UpdateHealthUI();
+        
+        // Make sure game over panel is hidden at start
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(false);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -52,7 +62,28 @@ public class PlayerHealth : MonoBehaviour
     void Die()
     {
         Debug.Log("Player died!");
-        // Restart game or show game over
-        Destroy(gameObject);
+        
+        // Show game over panel
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(true);
+        }
+        
+        // Pause the game
+        Time.timeScale = 0f;
+        
+        // Optionally destroy the player
+        // Destroy(gameObject);
     }
+
+    // Method to restart the game (call from Play Again button)
+    public void RestartGame()
+    {
+        // Resume time
+        Time.timeScale = 1f;
+        
+        // Reload current scene
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
 }
