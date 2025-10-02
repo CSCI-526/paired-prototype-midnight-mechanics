@@ -29,13 +29,20 @@ public class PlayerHealth : MonoBehaviour
         if (collision.CompareTag("Bullet"))
         {
             Bullet bullet = collision.GetComponent<Bullet>();
-            
+
             // Make sure it's an enemy bullet (check if it came from enemy terrain)
             if (bullet != null)
             {
                 TakeDamage(1);
                 Destroy(collision.gameObject); // Destroy bullet
             }
+        }
+
+        if (collision.CompareTag("Enemy"))
+        {
+            TakeDamage(2);
+            Debug.Log("Player touched enemy!");
+
         }
     }
 
