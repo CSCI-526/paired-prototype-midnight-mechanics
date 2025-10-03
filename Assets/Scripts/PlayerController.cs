@@ -8,8 +8,8 @@ public class PlayerController2d : MonoBehaviour
     public float bulletSpeed = 15f;
 
     private Rigidbody2D rb;
-    private bool isFlipped = false;   // vertical flip
-    private bool facingRight = true;  // horizontal flip state
+    private bool isFlipped = false;   
+    private bool facingRight = true; 
     private Vector3 originalScale;
 
     void Start()
@@ -20,11 +20,11 @@ public class PlayerController2d : MonoBehaviour
 
     void Update()
     {
-        // Move left/right
+        
         float move = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(move * moveSpeed, rb.velocity.y);
 
-        // Check movement direction to flip horizontally
+       
         if (move > 0 && !facingRight)
         {
             facingRight = true;
@@ -36,7 +36,7 @@ public class PlayerController2d : MonoBehaviour
             FlipHorizontal();
         }
 
-        // Flip gravity with G
+        
         if (Input.GetKeyDown(KeyCode.G))
         {
             rb.gravityScale *= -1;
@@ -44,7 +44,7 @@ public class PlayerController2d : MonoBehaviour
             FlipVertical();
         }
 
-        // Shoot with Space
+        
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Shoot();
@@ -54,14 +54,14 @@ public class PlayerController2d : MonoBehaviour
     void FlipHorizontal()
     {
         Vector3 scale = transform.localScale;
-        scale.x *= -1; // flip X
+        scale.x *= -1; 
         transform.localScale = scale;
     }
 
     void FlipVertical()
     {
         Vector3 scale = transform.localScale;
-        scale.y *= -1; // flip Y
+        scale.y *= -1; 
         transform.localScale = scale;
     }
 
@@ -87,7 +87,7 @@ public class PlayerController2d : MonoBehaviour
 
                 if (isFlipped) yVelocity = -yVelocity;
 
-                // Apply facing direction
+                
                 xVelocity *= facingRight ? 1 : -1;
                 
                 bulletRb.velocity = new Vector2(xVelocity, yVelocity);

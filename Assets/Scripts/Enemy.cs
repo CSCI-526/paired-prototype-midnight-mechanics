@@ -10,9 +10,9 @@ public class Enemy : MonoBehaviour
     public GameObject enemyBulletPrefab;
     public Transform enemyFirePoint;
     public float detectionRange = 10f;
-    public float shootCooldown = 0.5f;  // Faster shooting (was 2f)
+    public float shootCooldown = 0.5f;  
     public float enemyBulletSpeed = 12f;
-    public float shootAngle = 35f;  // Adjustable angle
+    public float shootAngle = 35f;  
 
     private Transform player;
     private float lastShootTime = 0f;
@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
 
-        // Create fire point if not assigned
+        
         if (enemyFirePoint == null)
         {
             GameObject fp = new GameObject("EnemyFirePoint");
@@ -37,10 +37,10 @@ public class Enemy : MonoBehaviour
         {
             float distance = Vector2.Distance(transform.position, player.position);
 
-            // Check if player is in range
+            
             if (distance <= detectionRange)
             {
-                // Check cooldown
+                
                 if (Time.time - lastShootTime >= shootCooldown)
                 {
                     ShootAtPlayer();
@@ -56,7 +56,7 @@ public class Enemy : MonoBehaviour
         bullet.tag = "EnemyBullet";
         Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
 
-        // Set bullet origin (enemies shoot from their terrain)
+        
         Bullet bulletScript = bullet.GetComponent<Bullet>();
         if (bulletScript != null)
         {
@@ -65,13 +65,13 @@ public class Enemy : MonoBehaviour
 
         if (bulletRb != null)
         {
-            // Shoot at 45 degree angle towards player
+            
             float angle = 45f * Mathf.Deg2Rad;
             float xDirection = player.position.x > transform.position.x ? 1f : -1f;
             float xVelocity = Mathf.Cos(angle) * enemyBulletSpeed * xDirection;
             float yVelocity = Mathf.Sin(angle) * enemyBulletSpeed;
 
-            // Flip Y if enemy is on ceiling
+            
             if (isOnCeiling)
             {
                 yVelocity = -yVelocity;
@@ -93,15 +93,15 @@ public class Enemy : MonoBehaviour
             
             if (bullet != null)
             {
-                // Check if bullet can damage this enemy
+               
                 bool canDamage = false;
 
-                // Enemy on ground: can only be hit from ceiling
+                
                 if (!isOnCeiling && !bullet.shotFromGround)
                 {
                     canDamage = true;
                 }
-                // Enemy on ceiling: can only be hit from ground
+               
                 else if (isOnCeiling && bullet.shotFromGround)
                 {
                     canDamage = true;
@@ -110,10 +110,10 @@ public class Enemy : MonoBehaviour
                 if (!canDamage)
                 {
                     Debug.Log("Bullet passed through! Wrong position to shoot this enemy.");
-                    return; // Don't damage
+                    return;
                 }
 
-                // Apply damage
+                
                 health--;
                 Debug.Log("Enemy hit! Health: " + health);
 
@@ -122,7 +122,7 @@ public class Enemy : MonoBehaviour
                     Die();
                 }
 
-                Destroy(collision.gameObject); // Destroy the bullet
+                Destroy(collision.gameObject); 
             }
         }
     }
@@ -133,7 +133,7 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    // Visualize detection range in editor
+    
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

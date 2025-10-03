@@ -8,7 +8,7 @@ public class PlayerHealth : MonoBehaviour
     public int currentHealth;
     public TextMeshProUGUI healthText;
     
-    // Game Over UI
+    
     public GameObject gameOverPanel;
 
     void Start()
@@ -16,7 +16,7 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = maxHealth;
         UpdateHealthUI();
         
-        // Make sure game over panel is hidden at start
+        
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(false);
@@ -25,16 +25,16 @@ public class PlayerHealth : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        // Check if hit by enemy bullet
+        
         if (collision.CompareTag("EnemyBullet"))
         {
             Bullet bullet = collision.GetComponent<Bullet>();
 
-            // Make sure it's an enemy bullet (check if it came from enemy terrain)
+            
             if (bullet != null)
             {
                 TakeDamage(1);
-                Destroy(collision.gameObject); // Destroy bullet
+                Destroy(collision.gameObject); 
             }
         }
 
@@ -70,26 +70,23 @@ public class PlayerHealth : MonoBehaviour
     {
         Debug.Log("Player died!");
         
-        // Show game over panel
+      
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true);
         }
         
-        // Pause the game
+        
         Time.timeScale = 0f;
         
-        // Optionally destroy the player
-        // Destroy(gameObject);
+       
     }
 
-    // Method to restart the game (call from Play Again button)
     public void RestartGame()
     {
-        // Resume time
         Time.timeScale = 1f;
         
-        // Reload current scene
+        
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
