@@ -29,7 +29,6 @@ public class Bullet : MonoBehaviour
 
                 if (!canDamage)
                 {
-                    Debug.Log("Can't hit this enemy! Switch gravity first!");
                     
                     return;
                 }

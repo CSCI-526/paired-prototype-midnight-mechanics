@@ -82,7 +82,7 @@ public class Enemy : MonoBehaviour
         }
 
         Destroy(bullet, 3f);
-        Debug.Log("Enemy shooting at player!");
+    
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -109,13 +109,13 @@ public class Enemy : MonoBehaviour
 
                 if (!canDamage)
                 {
-                    Debug.Log("Bullet passed through! Wrong position to shoot this enemy.");
+                    
                     return;
                 }
 
                 
                 health--;
-                Debug.Log("Enemy hit! Health: " + health);
+              
 
                 if (health <= 0)
                 {
@@ -129,7 +129,7 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
-        Debug.Log("Enemy destroyed!");
+      
         Destroy(gameObject);
     }
 
