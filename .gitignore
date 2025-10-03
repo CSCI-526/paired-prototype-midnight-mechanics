@@ -1,0 +1,6 @@
+# ignore everything
+*
+# allow only the WebGL build
+!index.html
+!Build/
+!TemplateData/
