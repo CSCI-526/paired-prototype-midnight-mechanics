@@ -70,6 +70,7 @@ public class PlayerController2d : MonoBehaviour
         if (bulletPrefab != null && firePoint != null)
         {
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+            bullet.tag = "PlayerBullet";
             Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
             
             Bullet bulletScript = bullet.GetComponent<Bullet>();

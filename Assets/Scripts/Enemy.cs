@@ -53,6 +53,7 @@ public class Enemy : MonoBehaviour
     void ShootAtPlayer()
     {
         GameObject bullet = Instantiate(enemyBulletPrefab, enemyFirePoint.position, Quaternion.identity);
+        bullet.tag = "EnemyBullet";
         Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
 
         // Set bullet origin (enemies shoot from their terrain)
@@ -86,7 +87,7 @@ public class Enemy : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Bullet"))
+        if (collision.CompareTag("PlayerBullet"))
         {
             Bullet bullet = collision.GetComponent<Bullet>();
             

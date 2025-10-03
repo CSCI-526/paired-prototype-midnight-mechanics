@@ -26,7 +26,7 @@ public class PlayerHealth : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision)
     {
         // Check if hit by enemy bullet
-        if (collision.CompareTag("Bullet"))
+        if (collision.CompareTag("EnemyBullet"))
         {
             Bullet bullet = collision.GetComponent<Bullet>();
 
